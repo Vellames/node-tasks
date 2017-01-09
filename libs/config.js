@@ -1,11 +1,11 @@
 module.exports = {
-	database: "node",
-	username: "postgres",
-	password: "root",
-	params: {
-		dialect: "postgres",
-		define: {
-			underscored: true
-		}
-	}
+    database: "node_tasks",
+    username: "root",
+    password: "root",
+    params: {
+        dialect: "mysql",
+        define: {
+            underscored: true
+        }
+    }
 };
