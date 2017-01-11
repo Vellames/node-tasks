@@ -8,7 +8,6 @@
     "start": "babel-node app.js"
   },
   "author": "Cassiano Vellames <c.vellames@outlook.com>",
-  "license": "ISC",
   "dependencies": {
     "babel-cli": "^6.5.1",
     "babel-preset-es2015": "^6.5.0",
@@ -16,9 +15,8 @@
     "consign": "^0.1.2",
     "express": "^4.13.4",
     "jwt-simple": "^0.4.1",
+    "moment": "^2.9.0",
     "mysql": "^2.12.0",
-    "passport": "^0.3.2",
-    "passport-jwt": "^2.0.0",
     "sequelize": "^3.19.2"
   }
 }
