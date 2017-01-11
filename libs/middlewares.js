@@ -8,6 +8,9 @@ module.exports = app => {
 
     app.use((req, res, next) => {
         delete req.body.id;
+
+        if(req.method)
+
         next();
     });
 

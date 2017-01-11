@@ -1,5 +1,4 @@
 const auth = require("../libs/auth");
-import jwt from "jwt-simple";
 
 module.exports = app => {
     const Tasks = app.db.models.Tasks;
@@ -10,8 +9,8 @@ module.exports = app => {
             auth.verifyToken(req, res, app, Config.jwtSecret, next)
         })
         .get((req, res) => {
-            Tasks.findAll({}).then(result =>
-                res.json(req.user)
+            Tasks.findAll({where :{user_id : req.user.id}}).then(result =>
+                res.json({"tasks" : result})
             ).catch(error => {
                 res.status(500).json({error: error.message});
             });
@@ -21,33 +20,60 @@ module.exports = app => {
             Tasks.create(req.body).then(result =>
                 res.json({"task" : result})
             ) .catch(error => {
-                res.status(500).json({error : "aqui" + error.message});
+                res.status(500).json({error : error.message});
             });
         });
     app.route("/tasks/:id")
+        .all((req, res, next) => {
+            auth.verifyToken(req, res, app, Config.jwtSecret, next)
+        })
         .get((req, res) => {
-            Tasks.findOne({where: req.params}).then(result => {
+
+            const param = {where :{
+                "id" : req.params.id,
+                "user_id" : req.user.id
+            }};
+
+            Tasks.findOne(param).then(result => {
                 if(result){
-                    res.json(result);
+                    res.json({task : result});
                 } else {
-                    res.sendStatus(404);
+                    res.status(400).json({info : "Task not found"});
                 }
             }).catch(error => {
                 res.status(500).json({error: error.message});
             });
         })
         .put((req, res) => {
-            Tasks.update(req.body, {where: req.params}).then(result =>
-                res.sendStatus(204)
-            ).catch(error => {
+
+            const param = {where : {
+                id: req.params.id,
+                user_id: req.user.id,
+            }};
+
+            Tasks.update(req.body, param).then(result => {
+                res.json({
+                    info: (result == 1 ? "Task updated with success" : "No tasks are updated")
+                });
+            }).catch(error => {
                 res.status(500).json({error: error.message});
             });
         })
         .delete((req, res) => {
-            Tasks.destroy({where: req.params}).then(result =>
-                res.sendStatus(204)
-            ).catch(error => {
+
+            const param = { where : {
+                id: req.params.id,
+                user_id: req.user.id
+            }};
+
+            Tasks.destroy(param).then(result =>{
+                console.log("deleted" + result);
+                res.json({
+                   info: (result == 1 ? "Task deleted with success" : "No tasks are deleted")
+                });
+            }).catch(error => {
                 res.status(500).json({error: error.message});
             });
+
         });
 };

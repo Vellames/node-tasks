@@ -10,4 +10,5 @@ module.exports = {
     },
 
     jwtSecret: "Nta$K-AP1",
+
 };

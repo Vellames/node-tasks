@@ -19,7 +19,13 @@ exports.verifyToken = (req, res, app, secret, next) => {
     // Verify if header has sent
     if(token){
 
-        const decoded = jwt.decode(token, secret);
+        var decoded;
+        try{
+            decoded = jwt.decode(token, secret);
+        } catch (ex) {
+            res.status(400).json({error: "Invalid token"});
+        }
+
 
         // Verify token lifetime
         if (decoded.exp <= Date.now()) {
