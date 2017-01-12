@@ -5,7 +5,8 @@
   "main": "app.js",
   "private": true,
   "scripts": {
-    "start": "babel-node app.js"
+    "start": "SET NODE_ENV=development && babel-node app.js",
+    "test": "SET NODE_ENV=test && mocha test/**/*.js"
   },
   "author": "Cassiano Vellames <c.vellames@outlook.com>",
   "dependencies": {
@@ -19,5 +20,11 @@
     "moment": "^2.9.0",
     "mysql": "^2.12.0",
     "sequelize": "^3.19.2"
+  },
+  "devDependencies": {
+    "babel-register": "^6.5.2",
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "supertest": "^1.2.0"
   }
 }

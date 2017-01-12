@@ -1,15 +1,26 @@
 module.exports = (sequelize, DataType) => {
     const Tasks = sequelize.define("Tasks", {
         id: {
-            type: DataType.INTEGER,
+            type: DataType.INTEGER.UNSIGNED,
             primaryKey: true,
-            autoIncrement: true
+            autoIncrement: true,
+            validate : {
+                notEmpty: {
+                    "msg" : "Id can not be null"
+                }
+            }
         },
         title: {
-            type: DataType.STRING,
+            type: DataType.STRING(100),
             allowNull: false,
             validate: {
-                notEmpty: true
+                notEmpty: {
+                    "msg" : "Title can not be null"
+                },
+                len: {
+                    "args" : [1,100],
+                    "msg" : "The title must have between 1 and 100 letters"
+                }
             }
         },
         done: {
@@ -20,7 +31,7 @@ module.exports = (sequelize, DataType) => {
     }, {
         classMethods: {
             associate: (models) => {
-                Tasks.belongsTo(models.Users, {foreignKey : "fk_users"});
+                Tasks.belongsTo(models.Users);
             }
         }
     });

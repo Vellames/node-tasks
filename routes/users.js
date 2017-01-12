@@ -1,5 +1,3 @@
-
-
 module.exports = app => {
 
     // Authorization module
@@ -13,6 +11,8 @@ module.exports = app => {
         .all((req, res, next) => {
             if(req.method.toUpperCase() != "POST"){
                 auth.verifyToken(req, res, app, Config.jwtSecret, next);
+            } else {
+                next();
             }
         })
         .post((req, res) => {
