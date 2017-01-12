@@ -20,7 +20,7 @@ module.exports = (sequelize, DataType) => {
     }, {
         classMethods: {
             associate: (models) => {
-                Tasks.belongsTo(models.Users);
+                Tasks.belongsTo(models.Users, {foreignKey : "fk_users"});
             }
         }
     });
